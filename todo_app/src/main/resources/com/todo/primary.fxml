@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.collections.ObservableList?>
+<?import javafx.collections.FXCollections?>
+
+<VBox xmlns="http://javafx.com/javafx/8.0.171" 
+xmlns:fx="http://javafx.com/fxml/1" 
+fx:controller="com.todo.FrontPageController"
+>
+   <children>
+      <Label fx:id="userName"/>
+      <Label  fx:id="currentDateLabel"/>
+      <Label fx:id="numberOfTasks"/>
+      <ListView fx:id="listView"/>
+      <TextField fx:id="userInput"/>
+      <Button fx:id="primaryButton" 
+      text="Click or press Enter key to add a task!" 
+      onAction="#inputTask"/>
+      <Label text="Double click on a task to remove it."/>
+   </children>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+</VBox>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextField?>
@@ -19,9 +20,10 @@ fx:controller="com.todo.FrontPageController"
       <Label fx:id="numberOfTasks"/>
       <ListView fx:id="listView"/>
       <TextField fx:id="userInput"/>
-      <Button fx:id="primaryButton" 
-      text="Click or press Enter key to add a task!" 
-      onAction="#inputTask"/>
+      <HBox>
+      <Button text="Click or press Enter key to add a task" onAction="#inputTask"/>
+      <Button text="Sign out" onAction="#goToLogin"/>
+      </HBox>
       <Label text="Double click on a task to remove it."/>
    </children>
    <padding>

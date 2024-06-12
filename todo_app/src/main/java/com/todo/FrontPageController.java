@@ -1,25 +1,24 @@
 package com.todo;
 
-//import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-//import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
 import javafx.scene.input.MouseEvent;
+
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
 public class FrontPageController {
     private LocalDate currentDate;
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
     private String input = "";
     private String task = "";
-    private String nameString = "";
+    private String nameString = LoginPageController.userName;
     @FXML
     private ListView<String> listView;        
     @FXML
@@ -47,7 +46,7 @@ public class FrontPageController {
         numberOfTasks.setText("Number of tasks to complete today: " + items.size());
         
         listView.setItems(items);
-        //mouse event listener
+        //create mouse event listener for the list view
         listView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 ;
@@ -80,6 +79,8 @@ public class FrontPageController {
                 inputTask();
             }
         });
+
+        
     }
 
     @FXML
@@ -89,5 +90,10 @@ public class FrontPageController {
         input = task;
         items.add(input);
         numberOfTasks.setText("Number of tasks to complete today: " + items.size());
+    }
+
+    @FXML
+    private void goToLogin() throws IOException{
+        App.setRoot("login");
     }
 }

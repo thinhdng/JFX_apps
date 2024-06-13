@@ -1,5 +1,5 @@
 package com.todo;
-
+import java.util.List;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -9,11 +9,11 @@ import javafx.scene.input.MouseButton;
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
 import javafx.scene.input.MouseEvent;
-
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 public class FrontPageController {
+    UserDBManager dbManager = new UserDBManager();
     private LocalDate currentDate;
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
     private String input = "";
@@ -36,15 +36,17 @@ public class FrontPageController {
     @FXML
     private void initialize(){
         items = FXCollections.observableArrayList();
+        List<String> userData = dbManager.loadUserData();
+        if (userData != null) {
+            items.addAll(userData);
+        }
         //shows username
         userName.setText("User: " + nameString);
         //sets and shows current date
         currentDate = LocalDate.now();
         currentDateLabel.setText("Today's date: " + currentDate.format(formatter));
-
         //shows the number of tasks
         numberOfTasks.setText("Number of tasks to complete today: " + items.size());
-        
         listView.setItems(items);
         //create mouse event listener for the list view
         listView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -60,6 +62,7 @@ public class FrontPageController {
                 String selectedItem = listView.getSelectionModel().getSelectedItem();
                 if(selectedItem != null){
                     items.remove(selectedItem);
+                    dbManager.updateUserTasks(items);
                     numberOfTasks.setText("Number of tasks to complete today: " + items.size());
                 }
             }
@@ -69,7 +72,6 @@ public class FrontPageController {
                 String selectedItem = listView.getSelectionModel().getSelectedItem();
                 if (selectedItem != null) {
                     System.out.println("Right-clicked item: " + selectedItem);
-                    // Handle right-click action here
                 }
             }
         });
@@ -89,6 +91,7 @@ public class FrontPageController {
         userInput.clear();
         input = task;
         items.add(input);
+        dbManager.updateUserTasks(items);
         numberOfTasks.setText("Number of tasks to complete today: " + items.size());
     }
 

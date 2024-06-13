@@ -8,7 +8,12 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.IndexOptions;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.FindIterable;
+import java.util.stream.Collectors;
 import org.bson.Document;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import java.util.List;
 
 public class UserDBManager {
     public static String uri = "mongodb+srv://thinhdnguyen:tn13ad41@cluster1.kfwsmpo.mongodb.net/?retryWrites=true&w=majority&appName=Cluster1";
@@ -17,9 +22,11 @@ public class UserDBManager {
     // Connect to the database
     MongoDatabase database = mongoClient.getDatabase("userData");
     boolean userExisted = false;
+    MongoCollection<Document> collection = database.getCollection("User");
+
+
     public boolean addUser(String usn, String pwd){
-        MongoCollection<Document> collection = database.getCollection("User");
-        Document userLogin = new Document("username", usn).append("password", pwd);
+        Document userLogin = new Document("username", usn).append("password", pwd).append("task", FXCollections.observableArrayList());
         //ensure unique usernames
         collection.createIndex(new Document("username", 1), new IndexOptions().unique(true));
         try {
@@ -47,9 +54,8 @@ public class UserDBManager {
     }
 
     public boolean validateUser(String usn, String pwd){
-        MongoCollection<Document> collection = database.getCollection("User");
-        Document userLogin = new Document("username", usn);
-        FindIterable<Document> result = collection.find(userLogin).limit(1);
+        Document username = new Document("username", usn);
+        FindIterable<Document> result = collection.find(username).limit(1);
         //find if username exists. if yes, check password. if not, return false.
         if(result.iterator().hasNext()){
             if(pwd.equals(result.first().getString("password")))
@@ -59,5 +65,19 @@ public class UserDBManager {
         }else{
             return false;
         }
+    }
+
+    public void updateUserTasks(ObservableList<String> tasks){
+        List<String> taskList = tasks.stream().collect(Collectors.toList());
+        Document username = new Document("username", LoginPageController.userName);
+        Document update = new Document("$set", new Document("tasks", taskList));
+        collection.updateOne(username, update);
+    }
+
+    public List<String> loadUserData(){
+        Document username = new Document("username", LoginPageController.userName);
+        Document userDocument = collection.find(username).first();
+        List<String> retrievedList = userDocument.getList("tasks", String.class);
+        return retrievedList;
     }
 }

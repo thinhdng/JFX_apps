@@ -1,6 +1,7 @@
 package com.todo;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.Label;
 import java.io.IOException;
 
@@ -10,7 +11,7 @@ public class LoginPageController {
     @FXML
     private TextField userNameField;
     @FXML
-    private TextField userPasswordField;
+    private PasswordField userPasswordField;
     @FXML
     private Label status;
     UserDBManager dbManager = new UserDBManager();

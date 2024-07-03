@@ -3,6 +3,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.geometry.Insets?>
@@ -16,7 +17,7 @@ fx:controller="com.todo.LoginPageController"
       <Label text="Username"/>
       <TextField fx:id="userNameField"/>
       <Label text="Password"/>
-      <TextField fx:id="userPasswordField"/>
+      <PasswordField fx:id="userPasswordField"/>
       <Button text="Sign up" onAction="#signUp"/>
       <Button text="Sign in" onAction="#signIn"/>
       <Label fx:id="status"/>
